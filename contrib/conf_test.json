@@ -1,34 +1,22 @@
 {
 	"pipeline": [
 		{
-			"uri": "anyloop:vonkarman_stream",
+			"uri": "anyloop:test_source",
 			"params": {
-				"L0": 4.0,
-				"r0": 0.02,
-				"pitch": 0.025,
-				"screen_size": 2048,
-				"step_x": 1,
-				"step_y": 1
+				"type": "vector",
+				"kind": "sine",
+				"size1": "2",
+				"frequency": "0.01"
 			}
 		},
 		{
-			"uri": "file:build/aylp_pigpio.so",
-			"params": {
-				"pwm_pins": [23],
-				"clock_pins": [23]
-			}
+			"uri": "file:build/aylp_alsa.so"
 		},
 		{
 			"uri": "anyloop:delay",
 			"params": {
-				"s": 1,
-				"ns": 100000000
-			}
-		},
-		{
-			"uri": "anyloop:stop_after_count",
-			"params": {
-				"count": 1000
+				"s": 0,
+				"ns": 1000
 			}
 		}
 	]
