@@ -16,7 +16,7 @@
 			"uri": "anyloop:delay",
 			"params": {
 				"s": 0,
-				"ns": 1000
+				"ns": 100
 			}
 		}
 	]

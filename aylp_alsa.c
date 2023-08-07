@@ -321,7 +321,7 @@ int aylp_alsa_init(struct aylp_device *self)
 	data->access = SND_PCM_ACCESS_MMAP_INTERLEAVED;
 	data->format = SND_PCM_FORMAT_S16;
 	data->channels = 2;
-	data->rate = 44100;
+	data->rate = 200000;
 	data->buffer_time = 0;
 	data->period_time = 0;
 	/* TODO
@@ -349,7 +349,7 @@ int aylp_alsa_init(struct aylp_device *self)
 	err = snd_output_stdio_attach(&data->output, stdout, 0);
 	if (err < 0) {
 		log_error("Output failed: %s", snd_strerror(err));
-		return 0;
+		return -1;
 	}
 
 	log_trace("Stream parameters are %u Hz, %s, %u channels",
@@ -361,7 +361,7 @@ int aylp_alsa_init(struct aylp_device *self)
 	);
 	if (err < 0) {
 		log_error("Playback open error: %s", snd_strerror(err));
-		return 0;
+		return -1;
 	}
 
 	err = set_hwparams(data);
@@ -423,7 +423,7 @@ int aylp_alsa_process(struct aylp_device *self, struct aylp_state *state)
 int aylp_alsa_close(struct aylp_device *self)
 {
 	struct aylp_alsa_data *data = self->device_data;
-	snd_pcm_close(data->handle);
+	if (data->handle) snd_pcm_close(data->handle);
 	xfree(data->areas);
 	xfree(data->samples);
 	xfree(self->device_data);
