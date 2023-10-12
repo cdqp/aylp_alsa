@@ -411,6 +411,11 @@ int aylp_alsa_process(struct aylp_device *self, struct aylp_state *state)
 {
 	int err;
 	struct aylp_alsa_data *data = self->device_data;
+	if (UNLIKELY(state->vector->size != data->channels)) {
+		log_error("Pipeline vector is size %u but we have %u channels",
+			state->vector->size, data->channels
+		);
+	}
 	for (unsigned p = 0; p < data->buffer_size / data->period_size; p++) {
 		log_trace("Processing period %u", p);
 		err = process_period(data, state);
